@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -14,6 +14,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
+import Icon from "../Icon";
 type Props = {};
 export default function LoginForm({}: Props) {
   const formSchema = z.object({
@@ -26,8 +27,10 @@ export default function LoginForm({}: Props) {
     resolver: zodResolver(formSchema),
   });
   function onSubmit() {}
+  //states
+  const [isShowPassword, setIsShowPassword] = useState(false);
   return (
-    <Form {...form} >
+    <Form {...form}>
       <section className="px-4 mx-auto mt-2">
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
           <FormField
@@ -37,7 +40,11 @@ export default function LoginForm({}: Props) {
               <FormItem>
                 <FormLabel>Username</FormLabel>
                 <FormControl>
-                  <Input placeholder="email" {...field}  className={cn("py-6")}/>
+                  <Input
+                    placeholder="email"
+                    {...field}
+                    className={cn("py-6")}
+                  />
                 </FormControl>
                 {/* <FormDescription>
             This is your public display name.
@@ -49,37 +56,49 @@ export default function LoginForm({}: Props) {
           <FormField
             control={form.control}
             name="password"
-            
             render={({ field }) => (
               <FormItem>
                 <FormLabel>password</FormLabel>
                 <FormControl>
-                  <Input placeholder="password" {...field} className={cn("py-6")} />
+                  <span className="relative">
+                    <Input
+                      placeholder="password"
+                      {...field}
+                      className={cn("py-6")}
+                      type={isShowPassword ? "text" : "password"}
+                    />
+                    <span
+                      className="absolute -translate-y-1/2 bg-red-00 left-[220px] top-1/2 "
+                      onClick={() => {setIsShowPassword(!isShowPassword)}}
+                    >
+                      {!isShowPassword ? (
+                        <Icon name="EyeOff" size={24} />
+                      ) : (
+                        <Icon name="Eye" size={24} />
+                      )}
+                    </span>
+                  </span>
                 </FormControl>
-                {/* <FormDescription>
-            This is your public display name.
-          </FormDescription> */}
                 <FormMessage />
+                <a className="text-sm"> Forget Password</a>
               </FormItem>
             )}
           />
-          <Button type="submit" className="w-full">
+          <Button type="submit" className={cn("w-full py-6  relative top-4")}>
             Submit
           </Button>
         </form>
       </section>
-
       <section className="px-4 mx-auto">
-        <h2 className="mx-auto my-4 w-fit">or</h2>
+        <h2 className="mx-auto my-6 w-fit">or</h2>
         <GoogleAuthButton />
       </section>
     </Form>
   );
 }
-
 const GoogleAuthButton = () => {
   return (
-    <div className="grid space-y-4">
+    <div className="grid ">
       <button className="h-12 px-6 transition duration-300 border-2 border-gray-300 rounded-full group hover:border-blue-400 focus:bg-blue-50 active:bg-blue-100">
         <div className="relative flex items-center justify-center space-x-4">
           <img

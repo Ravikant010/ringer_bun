@@ -52,6 +52,19 @@
     }
   }
   
+  @font-face {
+    font-family: 'Ananda_Regular';
+    src: url('./assets/fonts/AnandaBlackPersonalUseRegular-rg9Rx.ttf') format('truetype'),
+  
+  }
+  
+  
+  @font-face {
+    font-family: 'NatureBeauty';
+    src: url('./assets/fonts/NatureBeautyPersonalUse-9Y2DK.ttf') format('truetype'),
+  }
+
+  
 @layer base {
   * {
     @apply border-border;
