@@ -1,9 +1,15 @@
 import FlexContainer from "@/components/FlexContainer";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from 'react-hook-form';
-import { z } from "zod";
+// import { zodResolver } from "@hookform/resolvers/zod";
+// import { useForm } from 'react-hook-form';
+// import { z } from "zod";
 import LoginForm from "@/components/Forms/LoginForm";
 export default function SignInPage() {
+const [loader, setLoader] = useState(false)
+  function handleLoader(status:boolean){
+    setLoader(status)
+  }
+  if(loader)
+  return <div id="loader" data-testid="loader"></div>
   return (
     <div className=" dark:text-white font-[Urbanist]">
       <FlexContainer
@@ -11,12 +17,12 @@ export default function SignInPage() {
         ai="items-start"
         w="w-full"
         h="h-full"
-        _class="mt-5 flex-col px-4"
+        _class="mt-2 flex-col px-4 mb-4"
       >
         <div className="text-[4rem] font-bold w-fit ">Ringer</div>
         <div className="text-[4rem] font-bold w-fit ">Let's You In</div>
       </FlexContainer>
-      <LoginForm />
+      <LoginForm handleLoader = {handleLoader} />
     </div>
   );
 }
@@ -36,6 +42,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useTheme } from "@/components/theme_provider";
+import { useState } from "react";
 
 export function ModeToggle() {
   const { setTheme } = useTheme();

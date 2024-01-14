@@ -15,40 +15,59 @@ import {
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 import Icon from "../Icon";
-type Props = {};
-export default function LoginForm({}: Props) {
+import { useMutation } from "@tanstack/react-query";
+import API from "@/api/config/API";
+import { Link } from "react-router-dom";
+type Props = {
+  handleLoader: (status:boolean)=>void
+};
+export default function LoginForm({handleLoader}: Props) {
   const formSchema = z.object({
     email: z.string().email({ message: "Invalid email" }),
     password: z
       .string()
       .min(6, { message: "Password must be at least 6 characters" }),
   });
+  
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
   });
-  function onSubmit() {}
   //states
   const [isShowPassword, setIsShowPassword] = useState(false);
+  //api mutation
+  const login = useMutation({
+    mutationKey: ["Register"],
+    mutationFn: async () => {
+      handleLoader(true)
+      return await API.post("/register", form.getValues());
+    },
+  onSuccess:()=>handleLoader(false)
+  });
+  //api handler
+  function handleLogin() {
+    return login.mutate();
+  }
+  
   return (
     <Form {...form}>
       <section className="px-4 mx-auto mt-2">
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+        <form onSubmit={form.handleSubmit(handleLogin)} className="space-y-4">
           <FormField
             control={form.control}
             name="email"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Username</FormLabel>
+                <FormLabel className="text-base">email</FormLabel>
                 <FormControl>
-                  <Input
-                    placeholder="email"
-                    {...field}
-                    className={cn("py-6")}
-                  />
+                  <span>
+                    {" "}
+                    <Input
+                      placeholder="Email"
+                      {...field}
+                      className={cn("py-6 mt-0")}
+                    />
+                  </span>
                 </FormControl>
-                {/* <FormDescription>
-            This is your public display name.
-          </FormDescription> */}
                 <FormMessage />
               </FormItem>
             )}
@@ -58,40 +77,44 @@ export default function LoginForm({}: Props) {
             name="password"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>password</FormLabel>
+                <FormLabel className="text-base">password</FormLabel>
                 <FormControl>
-                  <span className="relative">
+                  <div className="relative">
                     <Input
-                      placeholder="password"
+                      placeholder="Password"
                       {...field}
-                      className={cn("py-6")}
-                      type={isShowPassword ? "text" : "password"}
+                      className={cn("py-6 mt-0")}
                     />
-                    <span
-                      className="absolute -translate-y-1/2 bg-red-00 left-[220px] top-1/2 "
-                      onClick={() => {setIsShowPassword(!isShowPassword)}}
+                    <div
+                      className="absolute top-0 end-0 p-3.5 rounded-e-md dark:focus:outline-none dark:focus:ring-1"
+                      onClick={() => setIsShowPassword(!isShowPassword)}
                     >
                       {!isShowPassword ? (
                         <Icon name="EyeOff" size={24} />
                       ) : (
                         <Icon name="Eye" size={24} />
                       )}
-                    </span>
-                  </span>
+                    </div>
+                  </div>
                 </FormControl>
+                <div className="relative w-full">
+                  <a className="absolute end-0 "> Forget Password</a>
+                </div>
                 <FormMessage />
-                <a className="text-sm"> Forget Password</a>
               </FormItem>
             )}
           />
-          <Button type="submit" className={cn("w-full py-6  relative top-4")}>
+          <Button type="submit" className={cn("w-full py-6  relative top-6")}>
             Submit
           </Button>
         </form>
       </section>
       <section className="px-4 mx-auto">
-        <h2 className="mx-auto my-6 w-fit">or</h2>
+        <h2 className="mx-auto mt-8 mb-4 w-fit">or</h2>
+        {/* <p className="w-full text-center bg-slate-500">sdsd</p> */}
         <GoogleAuthButton />
+        <h2 className="mx-auto mt-8 mb-4 w-fit">or</h2>
+        <h3 className="self-center w-full text-center "><Button variant={"link"} ><Link to="/signup">Create An Account</Link></Button></h3>
       </section>
     </Form>
   );
