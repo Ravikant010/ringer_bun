@@ -25,6 +25,6 @@ Ringer is a feature-rich social media platform designed to offer users a seamles
 1. Clone the repository:
    ```bash
    git clone https://github.com/yourusername/ringer.git
-   cd for client and server
+   cd for client and backend
    npm install for both
    run seprately by npm run dev
