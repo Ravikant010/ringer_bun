@@ -34,4 +34,7 @@ JWT_SECRET=<your-jwt-secret>
    git clone https://github.com/yourusername/ringer.git
    cd for client and backend
    npm install for both
-   run seprately by npm run dev
+   run seprately by npm run dev```
+## Video Demo
+
+If you'd like to see a demo of the platform in action, [watch this video](https://drive.google.com/file/d/1CNiaekxHh8lo1N0LFbyry73UBsSXEUsc/view?usp=drive_link).
