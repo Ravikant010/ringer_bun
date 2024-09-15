@@ -20,6 +20,13 @@ Ringer is a feature-rich social media platform designed to offer users a seamles
 - **Deployment**: Docker (Containerization)
 - **Real-time Features**: WebSockets for real-time chat and post updates
 
+## requirements
+Set up the environment variables:
+
+Create a .env file in the backend folder and configure the following:
+DATABASE_URL=<your-database-url>
+JWT_SECRET=<your-jwt-secret>
+
 ## Installation
 
 1. Clone the repository:
